@@ -1,104 +1,97 @@
-[tool.poetry]
+[project]
 name = "llm-engineering"
 version = "0.1.0"
 description = ""
-authors = ["iusztinpaul <p.b.iusztin@gmail.com>"]
-license = "MIT"
+authors = [{ name = "iusztinpaul", email = "p.b.iusztin@gmail.com" }]
+requires-python = ">=3.11,<3.12"
 readme = "README.md"
+license = "MIT"
+dependencies = [
+    "zenml[server]==0.67.0",
+    "pymongo>=4.6.2,<5",
+    "click>=8.0.1,<9",
+    "loguru>=0.7.2,<0.8",
+    "rich>=13.7.1,<14",
+    "numpy>=1.26.4,<2",
+    "poethepoet==0.29.0",
+    "datasets>=3.0.1,<4",
+    "selenium>=4.21.0,<5",
+    "webdriver-manager>=4.0.1,<5",
+    "beautifulsoup4>=4.12.3,<5",
+    "html2text>=2024.2.26,<2025",
+    "jmespath>=1.0.1,<2",
+    "chromedriver-autoinstaller>=0.6.4,<0.7",
+    "qdrant-client>=1.8.0,<2",
+    "langchain>=0.2.11,<0.3",
+    "sentence-transformers>=3.0.0,<4",
+    "langchain-openai>=0.1.3,<0.2",
+    "jinja2>=3.1.4,<4",
+    "tiktoken>=0.7.0,<0.8",
+    "fake-useragent>=1.5.1,<2",
+    "langchain-community>=0.2.11,<0.3",
+    "fastapi>=0.100,<=0.110",
+    "uvicorn>=0.30.6,<0.31",
+    "opik>=0.2.2,<0.3",
+]
 
-[tool.poetry.dependencies]
-python = "~3.11"
-zenml = { version = "0.67.0", extras = ["server"] }
-pymongo = "^4.6.2"
-click = "^8.0.1"
-loguru = "^0.7.2"
-rich = "^13.7.1"
-numpy = "^1.26.4"
-poethepoet = "0.29.0"
-datasets = "^3.0.1"
+[dependency-groups]
+dev = [
+    "ruff>=0.4.9,<0.5",
+    "pre-commit>=3.7.1,<4",
+    "pytest>=8.2.2,<9",
+]
+aws = [
+    "sagemaker>=2.232.2",
+    "s3fs>2022.3.0",
+    "aws-profile-manager>=0.7.3,<0.8",
+    "kubernetes>=30.1.0,<31",
+    "sagemaker-huggingface-inference-toolkit>=2.4.0,<3",
+]
 
-# Digital data ETL
-selenium = "^4.21.0"
-webdriver-manager = "^4.0.1"
-beautifulsoup4 = "^4.12.3"
-html2text = "^2024.2.26"
-jmespath = "^1.0.1"
-chromedriver-autoinstaller = "^0.6.4"
-
-# Feature engineering
-qdrant-client = "^1.8.0"
-langchain = "^0.2.11"
-sentence-transformers = "^3.0.0"
-
-# RAG
-langchain-openai = "^0.1.3"
-jinja2 = "^3.1.4"
-tiktoken = "^0.7.0"
-fake-useragent = "^1.5.1"
-langchain-community = "^0.2.11"
-
-# Inference
-fastapi = ">=0.100,<=0.110"
-uvicorn = "^0.30.6"
-opik = "^0.2.2"
-
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.4.9"
-pre-commit = "^3.7.1"
-pytest = "^8.2.2"
-
-
-[tool.poetry.group.aws.dependencies]
-sagemaker = ">=2.232.2"
-s3fs = ">2022.3.0"
-aws-profile-manager = "^0.7.3"
-kubernetes = "^30.1.0"
-sagemaker-huggingface-inference-toolkit = "^2.4.0"
-
+[tool.uv]
+default-groups = [
+    "dev",
+    "aws",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-# ----------------------------------
-# --- Poe the Poet Configuration ---
-# ----------------------------------
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.poe.tasks]
 # Data pipelines
 run-digital-data-etl-alex = "echo 'It is not supported anymore.'"
-run-digital-data-etl-maxime = "poetry run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_maxime_labonne.yaml"
-run-digital-data-etl-paul = "poetry run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_paul_iusztin.yaml"
+run-digital-data-etl-maxime = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_maxime_labonne.yaml"
+run-digital-data-etl-paul = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_paul_iusztin.yaml"
 run-digital-data-etl = [
     "run-digital-data-etl-maxime",
     "run-digital-data-etl-paul",
 ]
-run-feature-engineering-pipeline = "poetry run python -m tools.run --no-cache --run-feature-engineering"
-run-generate-instruct-datasets-pipeline = "poetry run python -m tools.run --no-cache --run-generate-instruct-datasets"
-run-generate-preference-datasets-pipeline = "poetry run python -m tools.run --no-cache --run-generate-preference-datasets"
-run-end-to-end-data-pipeline = "poetry run python -m tools.run --no-cache --run-end-to-end-data"
+run-feature-engineering-pipeline = "uv run python -m tools.run --no-cache --run-feature-engineering"
+run-generate-instruct-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-instruct-datasets"
+run-generate-preference-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-preference-datasets"
+run-end-to-end-data-pipeline = "uv run python -m tools.run --no-cache --run-end-to-end-data"
 
 # Utility pipelines
-run-export-artifact-to-json-pipeline = "poetry run python -m tools.run --no-cache --run-export-artifact-to-json"
-run-export-data-warehouse-to-json = "poetry run python -m tools.data_warehouse --export-raw-data"
-run-import-data-warehouse-from-json = "poetry run python -m tools.data_warehouse --import-raw-data"
+run-export-artifact-to-json-pipeline = "uv run python -m tools.run --no-cache --run-export-artifact-to-json"
+run-export-data-warehouse-to-json = "uv run python -m tools.data_warehouse --export-raw-data"
+run-import-data-warehouse-from-json = "uv run python -m tools.data_warehouse --import-raw-data"
 
 # Training pipelines
-run-training-pipeline = "poetry run python -m tools.run --no-cache --run-training"
-run-evaluation-pipeline = "poetry run python -m tools.run --no-cache --run-evaluation"
+run-training-pipeline = "uv run python -m tools.run --no-cache --run-training"
+run-evaluation-pipeline = "uv run python -m tools.run --no-cache --run-evaluation"
 
 # Inference
-call-rag-retrieval-module = "poetry run python -m tools.rag"
+call-rag-retrieval-module = "uv run python -m tools.rag"
 
-run-inference-ml-service = "poetry run uvicorn tools.ml_service:app --host 0.0.0.0 --port 8000 --reload"
+run-inference-ml-service = "uv run uvicorn tools.ml_service:app --host 0.0.0.0 --port 8000 --reload"
 call-inference-ml-service = "curl -X POST 'http://127.0.0.1:8000/rag' -H 'Content-Type: application/json' -d '{\"query\": \"My name is Paul Iusztin. Could you draft a LinkedIn post discussing RAG systems? I am particularly interested in how RAG works and how it is integrated with vector DBs and LLMs.\"}'"
 
 # Infrastructure
 ## Local infrastructure
 local-docker-infrastructure-up = "docker compose up -d"
 local-docker-infrastructure-down = "docker compose stop"
-local-zenml-server-down = "poetry run zenml down"
+local-zenml-server-down = "uv run zenml down"
 local-infrastructure-up = [
     "local-docker-infrastructure-up",
     "local-zenml-server-down",
@@ -108,34 +101,34 @@ local-infrastructure-down = [
     "local-docker-infrastructure-down",
     "local-zenml-server-down",
 ]
-set-local-stack = "poetry run zenml stack set default"
-set-aws-stack = "poetry run zenml stack set aws-stack"
-set-asynchronous-runs = "poetry run zenml orchestrator update aws-stack --synchronous=False"
-zenml-server-disconnect = "poetry run zenml disconnect"
+set-local-stack = "uv run zenml stack set default"
+set-aws-stack = "uv run zenml stack set aws-stack"
+set-asynchronous-runs = "uv run zenml orchestrator update aws-stack --synchronous=False"
+zenml-server-disconnect = "uv run zenml disconnect"
 
 ## Settings
-export-settings-to-zenml = "poetry run python -m tools.run --export-settings"
-delete-settings-zenml = "poetry run zenml secret delete settings"
+export-settings-to-zenml = "uv run python -m tools.run --export-settings"
+delete-settings-zenml = "uv run zenml secret delete settings"
 
 ## SageMaker
-create-sagemaker-role = "poetry run python -m llm_engineering.infrastructure.aws.roles.create_sagemaker_role"
-create-sagemaker-execution-role = "poetry run python -m llm_engineering.infrastructure.aws.roles.create_execution_role"
-deploy-inference-endpoint = "poetry run python -m llm_engineering.infrastructure.aws.deploy.huggingface.run"
-test-sagemaker-endpoint = "poetry run python -m llm_engineering.model.inference.test"
-delete-inference-endpoint = "poetry run python -m llm_engineering.infrastructure.aws.deploy.delete_sagemaker_endpoint"
+create-sagemaker-role = "uv run python -m llm_engineering.infrastructure.aws.roles.create_sagemaker_role"
+create-sagemaker-execution-role = "uv run python -m llm_engineering.infrastructure.aws.roles.create_execution_role"
+deploy-inference-endpoint = "uv run python -m llm_engineering.infrastructure.aws.deploy.huggingface.run"
+test-sagemaker-endpoint = "uv run python -m llm_engineering.model.inference.test"
+delete-inference-endpoint = "uv run python -m llm_engineering.infrastructure.aws.deploy.delete_sagemaker_endpoint"
 
 ## Docker
 build-docker-image = "docker buildx build --platform linux/amd64 -t llmtwin -f Dockerfile ."
-run-docker-end-to-end-data-pipeline = "docker run --rm --network host --shm-size=2g --env-file .env llmtwin poetry poe --no-cache --run-end-to-end-data"
+run-docker-end-to-end-data-pipeline = "docker run --rm --network host --shm-size=2g --env-file .env llmtwin uv poe --no-cache --run-end-to-end-data"
 bash-docker-container = "docker run --rm -it --network host --env-file .env llmtwin bash"
 
 # QA
-lint-check = "poetry run ruff check ."
-format-check = "poetry run ruff format --check ."
+lint-check = "uv run ruff check ."
+format-check = "uv run ruff format --check ."
 lint-check-docker = "sh -c 'docker run --rm -i hadolint/hadolint < Dockerfile'"
 gitleaks-check = "docker run -v .:/src zricethezav/gitleaks:latest dir /src/llm_engineering"
-lint-fix = "poetry run ruff check --fix ."
-format-fix = "poetry run ruff format ."
+lint-fix = "uv run ruff check --fix ."
+format-fix = "uv run ruff format ."
 
 [tool.poe.tasks.local-zenml-server-up]
 control.expr = "sys.platform"
@@ -143,12 +136,12 @@ control.expr = "sys.platform"
 [[tool.poe.tasks.local-zenml-server-up.switch]]
 case = "darwin"
 env = { OBJC_DISABLE_INITIALIZE_FORK_SAFETY = "YES" }
-cmd = "poetry run zenml up"
+cmd = "uv run zenml up"
 
 [[tool.poe.tasks.local-zenml-server-up.switch]]
-cmd = "poetry run zenml up"
+cmd = "uv run zenml up --blocking"
 
 # Tests
 [tool.poe.tasks.test]
-cmd = "poetry run pytest tests/"
+cmd = "uv run pytest tests/"
 env = { ENV_FILE = ".env.testing" }
