@@ -1,0 +1,41 @@
+settings:
+  docker:
+    parent_image: 992382797823.dkr.ecr.eu-central-1.amazonaws.com/zenml-rlwlcs:latest
+    skip_build: True
+  orchestrator.sagemaker:
+    synchronous: false
+
+parameters:
+  user_full_name: ML Expert # [First Name(s)] [Last Name]
+  links:
+    - https://arxiv.org/pdf/2407.21783
+    - https://arxiv.org/pdf/2208.07339
+    - https://arxiv.org/pdf/2312.14925
+    - https://arxiv.org/pdf/2311.09476
+    - https://arxiv.org/pdf/2306.00978
+    - https://arxiv.org/pdf/2404.04475
+    - https://arxiv.org/pdf/1706.03741
+    - https://arxiv.org/pdf/2401.02954
+    - https://arxiv.org/pdf/2305.18290
+    - https://arxiv.org/pdf/2306.04751
+    - https://arxiv.org/pdf/2211.17192
+    - https://arxiv.org/pdf/2311.12983
+    - https://arxiv.org/pdf/1811.06965
+    - https://arxiv.org/pdf/2210.17323
+    - https://arxiv.org/pdf/2303.17580
+    - https://arxiv.org/pdf/2311.07911
+    - https://arxiv.org/pdf/2306.05685
+    - https://arxiv.org/pdf/2009.01325
+    - https://arxiv.org/pdf/2305.11206
+    - https://arxiv.org/pdf/2106.09685
+    - https://arxiv.org/pdf/2401.10774
+    - https://arxiv.org/pdf/2009.03300
+    - https://arxiv.org/pdf/1909.08053
+    - https://arxiv.org/pdf/2306.02707
+    - https://arxiv.org/pdf/2309.06180
+    - https://arxiv.org/pdf/1707.06347
+    - https://arxiv.org/pdf/2305.14314
+    - https://arxiv.org/pdf/2309.15217
+    - https://arxiv.org/pdf/2404.05904
+    - https://arxiv.org/pdf/2203.02155
+    - https://arxiv.org/pdf/2403.04652
