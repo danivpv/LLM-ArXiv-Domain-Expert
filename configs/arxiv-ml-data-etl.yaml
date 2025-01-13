@@ -6,7 +6,7 @@ settings:
     synchronous: false
 
 parameters:
-  user_full_name: ML Expert # [First Name(s)] [Last Name]
+  domain: machine_learning
   links:
     - https://arxiv.org/pdf/2407.21783
     - https://arxiv.org/pdf/2208.07339

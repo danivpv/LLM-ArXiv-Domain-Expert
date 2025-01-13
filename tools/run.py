@@ -134,7 +134,16 @@ def main(
     ), "Please specify an action to run."
 
     # Initialize MongoDB connection
-    settings.init_mongodb()
+    if (
+        run_end_to_end_data 
+        or run_etl 
+        or run_export_artifact_to_json 
+        or run_feature_engineering 
+        or run_generate_instruct_datasets 
+        or run_generate_preference_datasets
+    ):
+        logger.info("Initializing mongonengine MongoDB connection.")
+        settings.init_mongodb()
 
     if export_settings:
         logger.info("Exporting settings to ZenML secrets.")

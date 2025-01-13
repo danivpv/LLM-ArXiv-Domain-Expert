@@ -63,13 +63,7 @@ build-backend = "hatchling.build"
 
 [tool.poe.tasks]
 # Data pipelines
-run-arxiv-data-etl = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename test_arxiv.yaml"
-run-digital-data-etl-maxime = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_maxime_labonne.yaml"
-run-digital-data-etl-paul = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_paul_iusztin.yaml"
-run-digital-data-etl = [
-    "run-digital-data-etl-maxime",
-    "run-digital-data-etl-paul",
-]
+run-arxiv-ml-data-etl = "uv run python -m tools.run --run-etl --no-cache --etl-config-filename arxiv-ml-data-etl.yaml"
 run-feature-engineering-pipeline = "uv run python -m tools.run --no-cache --run-feature-engineering"
 run-generate-instruct-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-instruct-datasets"
 run-generate-preference-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-preference-datasets"
@@ -108,6 +102,7 @@ set-local-stack = "uv run zenml stack set default"
 set-aws-stack = "uv run zenml stack set aws-stack"
 set-asynchronous-runs = "uv run zenml orchestrator update aws-stack --synchronous=False"
 zenml-server-disconnect = "uv run zenml disconnect"
+mongo-shell = "docker exec -it llm_engineering_mongo mongosh -u llm_engineering -p llm_engineering"
 
 ## Settings
 export-settings-to-zenml = "uv run python -m tools.run --export-settings"
