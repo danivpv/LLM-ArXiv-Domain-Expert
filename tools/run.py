@@ -5,15 +5,9 @@ import click
 from loguru import logger
 
 from llm_engineering import settings
-from pipelines import (
-    digital_data_etl,
-    end_to_end_data,
-    evaluating,
-    export_artifact_to_json,
-    feature_engineering,
-    generate_datasets,
-    training,
-)
+from pipelines import (arxiv_data_etl, end_to_end_data, evaluating,
+                       export_artifact_to_json, feature_engineering,
+                       generate_datasets, training)
 
 
 @click.command(
@@ -42,6 +36,10 @@ Examples:
   \b
   # Run only the ETL pipeline
   python run.py --only-etl
+
+  \b
+  # Run arxiv ETL pipeline
+  python run.py --run-etl --etl-config-filename test_arxiv.yaml
 
 """
 )
@@ -135,6 +133,9 @@ def main(
         or export_settings
     ), "Please specify an action to run."
 
+    # Initialize MongoDB connection
+    settings.init_mongodb()
+
     if export_settings:
         logger.info("Exporting settings to ZenML secrets.")
         settings.export()
@@ -155,8 +156,9 @@ def main(
         run_args_etl = {}
         pipeline_args["config_path"] = root_dir / "configs" / etl_config_filename
         assert pipeline_args["config_path"].exists(), f"Config file not found: {pipeline_args['config_path']}"
-        pipeline_args["run_name"] = f"digital_data_etl_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
-        digital_data_etl.with_options(**pipeline_args)(**run_args_etl)
+        print("Hello world")
+        pipeline_args["run_name"] = f"arxiv_data_etl_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        arxiv_data_etl.with_options(**pipeline_args)(**run_args_etl)
 
     if run_export_artifact_to_json:
         run_args_etl = {}
