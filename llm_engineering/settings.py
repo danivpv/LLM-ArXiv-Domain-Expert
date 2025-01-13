@@ -1,8 +1,15 @@
+import os
+from pathlib import Path
+
+from dotenv import load_dotenv
 from loguru import logger
+from mongoengine import connect
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from zenml.client import Client
 from zenml.exceptions import EntityExistsError
 
+# Load environment variables from .env file
+load_dotenv()
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
@@ -121,5 +128,18 @@ class Settings(BaseSettings):
                 "Secret 'scope' already exists. Delete it manually by running 'zenml secret delete settings', before trying to recreate it."
             )
 
+    def init_mongodb(self):
+        """Initialize MongoDB connection."""
+        try:
+            # Connect to MongoDB
+            connect(
+                db=self.DATABASE_NAME,
+                host=self.DATABASE_HOST
+            )
+            logger.info(f"Connected to MongoDB at {self.DATABASE_HOST}:{self.DATABASE_NAME}")
+        except Exception as e:
+            logger.error(f"Failed to connect to MongoDB: {str(e)}")
+            raise
 
 settings = Settings.load_settings()
+
