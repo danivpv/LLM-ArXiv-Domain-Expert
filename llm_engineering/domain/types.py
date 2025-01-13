@@ -10,6 +10,4 @@ class DataCategory(StrEnum):
     PREFERENCE_DATASET_SAMPLES = "preference_dataset_samples"
     PREFERENCE_DATASET = "preference_dataset"
 
-    POSTS = "posts"
-    ARTICLES = "articles"
-    REPOSITORIES = "repositories"
+    PAPERS = "papers"

@@ -6,12 +6,8 @@ from typing_extensions import Annotated
 from zenml import step
 
 from llm_engineering.domain.base.nosql import NoSQLBaseDocument
-from llm_engineering.domain.cleaned_documents import (
-    CleanedArticleDocument,
-    CleanedDocument,
-    CleanedPostDocument,
-    CleanedRepositoryDocument,
-)
+from llm_engineering.domain.cleaned_documents import (CleanedDocument,
+                                                      CleanedPaperDocument)
 
 
 @step
@@ -29,14 +25,8 @@ def fetch_all_data() -> dict[str, list[NoSQLBaseDocument]]:
     with ThreadPoolExecutor() as executor:
         future_to_query = {
             executor.submit(
-                __fetch_articles,
-            ): "articles",
-            executor.submit(
-                __fetch_posts,
-            ): "posts",
-            executor.submit(
-                __fetch_repositories,
-            ): "repositories",
+                __fetch_papers,
+            ): "papers",
         }
 
         results = {}
@@ -52,16 +42,8 @@ def fetch_all_data() -> dict[str, list[NoSQLBaseDocument]]:
     return results
 
 
-def __fetch_articles() -> list[CleanedDocument]:
-    return __fetch(CleanedArticleDocument)
-
-
-def __fetch_posts() -> list[CleanedDocument]:
-    return __fetch(CleanedPostDocument)
-
-
-def __fetch_repositories() -> list[CleanedDocument]:
-    return __fetch(CleanedRepositoryDocument)
+def __fetch_papers() -> list[CleanedDocument]:
+    return __fetch(CleanedPaperDocument)
 
 
 def __fetch(cleaned_document_type: type[CleanedDocument], limit: int = 1) -> list[CleanedDocument]:

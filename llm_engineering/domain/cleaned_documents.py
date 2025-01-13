@@ -14,29 +14,11 @@ class CleanedDocument(VectorBaseDocument, ABC):
     author_full_name: str
 
 
-class CleanedPostDocument(CleanedDocument):
+class CleanedPaperDocument(CleanedDocument):
     image: Optional[str] = None
 
     class Config:
-        name = "cleaned_posts"
-        category = DataCategory.POSTS
+        name = "cleaned_papers"
+        category = DataCategory.PAPERS
         use_vector_index = False
 
-
-class CleanedArticleDocument(CleanedDocument):
-    link: str
-
-    class Config:
-        name = "cleaned_articles"
-        category = DataCategory.ARTICLES
-        use_vector_index = False
-
-
-class CleanedRepositoryDocument(CleanedDocument):
-    name: str
-    link: str
-
-    class Config:
-        name = "cleaned_repositories"
-        category = DataCategory.REPOSITORIES
-        use_vector_index = False

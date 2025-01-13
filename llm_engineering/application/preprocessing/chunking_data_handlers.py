@@ -3,13 +3,9 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 from uuid import UUID
 
-from llm_engineering.domain.chunks import ArticleChunk, Chunk, PostChunk, RepositoryChunk
-from llm_engineering.domain.cleaned_documents import (
-    CleanedArticleDocument,
-    CleanedDocument,
-    CleanedPostDocument,
-    CleanedRepositoryDocument,
-)
+from llm_engineering.domain.chunks import Chunk, PaperChunk
+from llm_engineering.domain.cleaned_documents import (CleanedDocument,
+                                                      CleanedPaperDocument)
 
 from .operations import chunk_article, chunk_text
 
@@ -35,7 +31,7 @@ class ChunkingDataHandler(ABC, Generic[CleanedDocumentT, ChunkT]):
         pass
 
 
-class PostChunkingHandler(ChunkingDataHandler):
+class PaperChunkingHandler(ChunkingDataHandler):
     @property
     def metadata(self) -> dict:
         return {
@@ -43,7 +39,7 @@ class PostChunkingHandler(ChunkingDataHandler):
             "chunk_overlap": 25,
         }
 
-    def chunk(self, data_model: CleanedPostDocument) -> list[PostChunk]:
+    def chunk(self, data_model: CleanedPaperDocument) -> list[PaperChunk]:
         data_models_list = []
 
         cleaned_content = data_model.content
@@ -53,7 +49,7 @@ class PostChunkingHandler(ChunkingDataHandler):
 
         for chunk in chunks:
             chunk_id = hashlib.md5(chunk.encode()).hexdigest()
-            model = PostChunk(
+            model = PaperChunk(
                 id=UUID(chunk_id, version=4),
                 content=chunk,
                 platform=data_model.platform,
@@ -67,7 +63,7 @@ class PostChunkingHandler(ChunkingDataHandler):
 
         return data_models_list
 
-
+""" 
 class ArticleChunkingHandler(ChunkingDataHandler):
     @property
     def metadata(self) -> dict:
@@ -133,3 +129,4 @@ class RepositoryChunkingHandler(ChunkingDataHandler):
             data_models_list.append(model)
 
         return data_models_list
+ """

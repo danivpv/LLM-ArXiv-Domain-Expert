@@ -5,13 +5,10 @@ from loguru import logger
 from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 from llm_engineering.application import utils
-from llm_engineering.application.preprocessing.dispatchers import EmbeddingDispatcher
-from llm_engineering.domain.embedded_chunks import (
-    EmbeddedArticleChunk,
-    EmbeddedChunk,
-    EmbeddedPostChunk,
-    EmbeddedRepositoryChunk,
-)
+from llm_engineering.application.preprocessing.dispatchers import \
+    EmbeddingDispatcher
+from llm_engineering.domain.embedded_chunks import (EmbeddedChunk,
+                                                    EmbeddedPaperChunk)
 from llm_engineering.domain.queries import EmbeddedQuery, Query
 
 from .query_expanison import QueryExpansion
@@ -88,11 +85,9 @@ class ContextRetriever:
 
         embedded_query: EmbeddedQuery = EmbeddingDispatcher.dispatch(query)
 
-        post_chunks = _search_data_category(EmbeddedPostChunk, embedded_query)
-        articles_chunks = _search_data_category(EmbeddedArticleChunk, embedded_query)
-        repositories_chunks = _search_data_category(EmbeddedRepositoryChunk, embedded_query)
+        paper_chunks = _search_data_category(EmbeddedPaperChunk, embedded_query)
 
-        retrieved_chunks = post_chunks + articles_chunks + repositories_chunks
+        retrieved_chunks = paper_chunks
 
         return retrieved_chunks
 

@@ -1,18 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-from llm_engineering.domain.cleaned_documents import (
-    CleanedArticleDocument,
-    CleanedDocument,
-    CleanedPostDocument,
-    CleanedRepositoryDocument,
-)
-from llm_engineering.domain.documents import (
-    ArticleDocument,
-    Document,
-    PostDocument,
-    RepositoryDocument,
-)
+from llm_engineering.domain.cleaned_documents import (CleanedDocument,
+                                                      CleanedPaperDocument)
+from llm_engineering.domain.documents import Document, PaperDocument
 
 from .operations import clean_text
 
@@ -31,9 +22,9 @@ class CleaningDataHandler(ABC, Generic[DocumentT, CleanedDocumentT]):
         pass
 
 
-class PostCleaningHandler(CleaningDataHandler):
-    def clean(self, data_model: PostDocument) -> CleanedPostDocument:
-        return CleanedPostDocument(
+class PaperCleaningHandler(CleaningDataHandler):
+    def clean(self, data_model: PaperDocument) -> CleanedPaperDocument:
+        return CleanedPaperDocument(
             id=data_model.id,
             content=clean_text(" #### ".join(data_model.content.values())),
             platform=data_model.platform,
@@ -42,7 +33,7 @@ class PostCleaningHandler(CleaningDataHandler):
             image=data_model.image if data_model.image else None,
         )
 
-
+""" 
 class ArticleCleaningHandler(CleaningDataHandler):
     def clean(self, data_model: ArticleDocument) -> CleanedArticleDocument:
         valid_content = [content for content in data_model.content.values() if content]
@@ -68,3 +59,4 @@ class RepositoryCleaningHandler(CleaningDataHandler):
             author_id=data_model.author_id,
             author_full_name=data_model.author_full_name,
         )
+ """

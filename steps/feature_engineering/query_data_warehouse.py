@@ -6,7 +6,8 @@ from zenml import get_step_context, step
 
 from llm_engineering.application import utils
 from llm_engineering.domain.base.nosql import NoSQLBaseDocument
-from llm_engineering.domain.documents import ArticleDocument, Document, PostDocument, RepositoryDocument, UserDocument
+from llm_engineering.domain.documents import (Document, ExpertDocument,
+                                              PaperDocument)
 
 
 @step
@@ -20,7 +21,7 @@ def query_data_warehouse(
 
         first_name, last_name = utils.split_user_full_name(author_full_name)
         logger.info(f"First name: {first_name}, Last name: {last_name}")
-        user = UserDocument.get_or_create(first_name=first_name, last_name=last_name)
+        user = ExpertDocument.get_or_create(first_name=first_name, last_name=last_name)
         authors.append(user)
 
         results = fetch_all_data(user)
@@ -34,13 +35,11 @@ def query_data_warehouse(
     return documents
 
 
-def fetch_all_data(user: UserDocument) -> dict[str, list[NoSQLBaseDocument]]:
+def fetch_all_data(user: ExpertDocument) -> dict[str, list[NoSQLBaseDocument]]:
     user_id = str(user.id)
     with ThreadPoolExecutor() as executor:
         future_to_query = {
-            executor.submit(__fetch_articles, user_id): "articles",
-            executor.submit(__fetch_posts, user_id): "posts",
-            executor.submit(__fetch_repositories, user_id): "repositories",
+            executor.submit(__fetch_papers, user_id): "papers",
         }
 
         results = {}
@@ -56,19 +55,10 @@ def fetch_all_data(user: UserDocument) -> dict[str, list[NoSQLBaseDocument]]:
     return results
 
 
-def __fetch_articles(user_id) -> list[NoSQLBaseDocument]:
-    return ArticleDocument.bulk_find(author_id=user_id)
+def __fetch_papers(user_id) -> list[NoSQLBaseDocument]:
+    return PaperDocument.bulk_find(author_id=user_id)
 
-
-def __fetch_posts(user_id) -> list[NoSQLBaseDocument]:
-    return PostDocument.bulk_find(author_id=user_id)
-
-
-def __fetch_repositories(user_id) -> list[NoSQLBaseDocument]:
-    return RepositoryDocument.bulk_find(author_id=user_id)
-
-
-def _get_metadata(documents: list[Document]) -> dict:
+def _get_metadata(documents: list[PaperDocument]) -> dict:
     metadata = {
         "num_documents": len(documents),
     }

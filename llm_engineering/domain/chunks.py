@@ -16,23 +16,8 @@ class Chunk(VectorBaseDocument, ABC):
     metadata: dict = Field(default_factory=dict)
 
 
-class PostChunk(Chunk):
+class PaperChunk(Chunk):
     image: Optional[str] = None
 
     class Config:
-        category = DataCategory.POSTS
-
-
-class ArticleChunk(Chunk):
-    link: str
-
-    class Config:
-        category = DataCategory.ARTICLES
-
-
-class RepositoryChunk(Chunk):
-    name: str
-    link: str
-
-    class Config:
-        category = DataCategory.REPOSITORIES
+        category = DataCategory.PAPERS

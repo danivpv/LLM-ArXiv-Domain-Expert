@@ -2,13 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, cast
 
 from llm_engineering.application.networks import EmbeddingModelSingleton
-from llm_engineering.domain.chunks import ArticleChunk, Chunk, PostChunk, RepositoryChunk
-from llm_engineering.domain.embedded_chunks import (
-    EmbeddedArticleChunk,
-    EmbeddedChunk,
-    EmbeddedPostChunk,
-    EmbeddedRepositoryChunk,
-)
+from llm_engineering.domain.chunks import Chunk, PaperChunk
+from llm_engineering.domain.embedded_chunks import (EmbeddedChunk,
+                                                    EmbeddedPaperChunk)
 from llm_engineering.domain.queries import EmbeddedQuery, Query
 
 ChunkT = TypeVar("ChunkT", bound=Chunk)
@@ -57,10 +53,9 @@ class QueryEmbeddingHandler(EmbeddingDataHandler):
             },
         )
 
-
-class PostEmbeddingHandler(EmbeddingDataHandler):
-    def map_model(self, data_model: PostChunk, embedding: list[float]) -> EmbeddedPostChunk:
-        return EmbeddedPostChunk(
+class PaperEmbeddingHandler(EmbeddingDataHandler):
+    def map_model(self, data_model: PaperChunk, embedding: list[float]) -> EmbeddedPaperChunk:
+        return EmbeddedPaperChunk(
             id=data_model.id,
             content=data_model.content,
             embedding=embedding,
@@ -74,6 +69,7 @@ class PostEmbeddingHandler(EmbeddingDataHandler):
                 "max_input_length": embedding_model.max_input_length,
             },
         )
+""" 
 
 
 class ArticleEmbeddingHandler(EmbeddingDataHandler):
@@ -113,3 +109,4 @@ class RepositoryEmbeddingHandler(EmbeddingDataHandler):
                 "max_input_length": embedding_model.max_input_length,
             },
         )
+ """
