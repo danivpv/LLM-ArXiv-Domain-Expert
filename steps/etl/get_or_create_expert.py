@@ -17,9 +17,7 @@ def get_or_create_expert(domain: str) -> Annotated[ExpertDocument, "expert"]:
         ExpertDocument: The expert document from MongoDB
     """
     logger.info(f"Getting or creating expert for domain: {domain}")
-
     expert = ExpertDocument.get_or_create(domain=domain)
-
     step_context = get_step_context()
     step_context.add_output_metadata(output_name="expert", metadata=_get_metadata(domain, expert))
 

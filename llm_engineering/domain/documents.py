@@ -1,7 +1,6 @@
 import datetime
 
-from mongoengine import (DateTimeField, DictField, Document, ReferenceField,
-                         StringField)
+from mongoengine import DateTimeField, Document, ReferenceField, StringField
 
 from .types import DataCategory
 
@@ -42,11 +41,13 @@ class PaperDocument(Document):
     expert_id = ReferenceField('ExpertDocument', required=True)  # Better to use ReferenceField
     link = StringField(required=True)
     published_at = DateTimeField(required=True)
+    created_at = DateTimeField(default=datetime.datetime.now(datetime.timezone.utc))
 
     meta = {
         'collection': 'papers',
         'indexes': [
             'expert_id',  # For quick lookups of papers by expert
+            'link',
         ]
     }
 
