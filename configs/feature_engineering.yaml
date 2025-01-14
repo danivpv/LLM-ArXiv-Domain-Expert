@@ -4,8 +4,7 @@ settings:
     skip_build: True
   orchestrator.sagemaker:
     synchronous: false
-    
+
 parameters:
-  author_full_names:
-    - Maxime Labonne
-    - Paul Iusztin
+  domains:
+    - machine_learning
