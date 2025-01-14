@@ -1,11 +1,11 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from loguru import logger
+from mongoengine import Document
 from qdrant_client.http import exceptions
 from typing_extensions import Annotated
 from zenml import step
 
-from llm_engineering.domain.base.nosql import NoSQLBaseDocument
 from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
 
 
@@ -20,7 +20,7 @@ def query_feature_store() -> Annotated[list, "queried_cleaned_documents"]:
     return cleaned_documents
 
 
-def fetch_all_data() -> dict[str, list[NoSQLBaseDocument]]:
+def fetch_all_data() -> dict[str, list[Document]]:
     with ThreadPoolExecutor() as executor:
         future_to_query = {
             executor.submit(

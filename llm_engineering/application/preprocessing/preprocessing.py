@@ -1,7 +1,6 @@
 import hashlib
 from uuid import UUID
 
-from bson import ObjectId
 from loguru import logger
 
 from llm_engineering.application.networks import EmbeddingModelSingleton
@@ -16,18 +15,9 @@ from llm_engineering.domain.types import DataCategory
 from .operations import chunk_text, clean_text
 
 
-def objectid_to_uuid4(obj_id: ObjectId) -> UUID:
-    return UUID(str(obj_id).replace('-',''), version=4)
-
-def uuid4_to_objectid(uuid: UUID) -> ObjectId:
-    return ObjectId(str(uuid).replace('-',''))
-
 class DocumentCleaner:
     @classmethod
-    def clean(cls, doc: PaperDocument) -> CleanedPaperDocument:        
-        logger.info(f"Cleaning document: {doc.id}")
-        logger.info(f"Expert ID: {doc.expert_id}")
-        logger.info(f"Expert ID type: {type(doc.expert_id)}")
+    def clean(cls, doc: PaperDocument) -> CleanedPaperDocument:
         cleaned_doc = CleanedPaperDocument(
             id=doc.id,
             content=clean_text(" #### ".join(doc.content)),

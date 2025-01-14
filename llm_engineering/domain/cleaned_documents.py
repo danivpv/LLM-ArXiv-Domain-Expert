@@ -12,4 +12,3 @@ class CleanedPaperDocument(VectorBaseDocument):
         name = "cleaned_papers"
         category = DataCategory.PAPERS
         use_vector_index = False
-        arbitrary_types_allowed = True
