@@ -1,8 +1,8 @@
 from typing_extensions import Annotated
 from zenml import get_step_context, step
 
-from llm_engineering.application.preprocessing import CleaningDispatcher
-from llm_engineering.domain.cleaned_documents import CleanedDocument
+from llm_engineering.application.preprocessing import DocumentCleaner
+from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
 
 
 @step
@@ -11,7 +11,7 @@ def clean_documents(
 ) -> Annotated[list, "cleaned_documents"]:
     cleaned_documents = []
     for document in documents:
-        cleaned_document = CleaningDispatcher.dispatch(document)
+        cleaned_document = DocumentCleaner.clean(document)
         cleaned_documents.append(cleaned_document)
 
     step_context = get_step_context()
@@ -20,20 +20,9 @@ def clean_documents(
     return cleaned_documents
 
 
-def _get_metadata(cleaned_documents: list[CleanedDocument]) -> dict:
-    metadata = {"num_documents": len(cleaned_documents)}
-    for document in cleaned_documents:
-        category = document.get_category()
-        if category not in metadata:
-            metadata[category] = {}
-        if "authors" not in metadata[category]:
-            metadata[category]["authors"] = list()
-
-        metadata[category]["num_documents"] = metadata[category].get("num_documents", 0) + 1
-        metadata[category]["authors"].append(document.author_full_name)
-
-    for value in metadata.values():
-        if isinstance(value, dict) and "authors" in value:
-            value["authors"] = list(set(value["authors"]))
-
-    return metadata
+def _get_metadata(cleaned_documents: list[CleanedPaperDocument]) -> dict:
+    """Get metadata about the cleaned documents."""
+    return {
+        "num_documents": len(cleaned_documents),
+        "expert": str(cleaned_documents[0].expert_id),  # Convert UUID to string
+    }

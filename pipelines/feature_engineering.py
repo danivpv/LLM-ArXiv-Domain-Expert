@@ -4,8 +4,8 @@ from steps import feature_engineering as fe_steps
 
 
 @pipeline
-def feature_engineering(author_full_names: list[str], wait_for: str | list[str] | None = None) -> list[str]:
-    raw_documents = fe_steps.query_data_warehouse(author_full_names, after=wait_for)
+def feature_engineering(domains: list[str]) -> list[str]:
+    raw_documents = fe_steps.query_data_warehouse(domains)
 
     cleaned_documents = fe_steps.clean_documents(raw_documents)
     last_step_1 = fe_steps.load_to_vector_db(cleaned_documents)
