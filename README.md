@@ -3,7 +3,7 @@
   <p>A comprehensive LLM system trained on ArXiv papers to create a domain expert</p>
   
   
-  <p><em>This project is adapted from the excellent <a href="https://github.com/PacktPublishing/LLM-Engineers-Handbook">LLM Engineer's Handbook</a> by <a href="https://github.com/iusztinpaul">Paul Iusztin</a> and <a href="https://github.com/mlabonne">Maxime Labonne</a>. While maintaining the robust MLOps architecture and best practices from the original work, this adaptation implements finetunning from arxiv papers through a complete academic paper processing pipeline made possible with <a href="https://ds4sd.github.io/docling/">docling</a> a library developed by IBM.</em></p>
+  <p><em>This project is adapted from the excellent <a href="https://github.com/PacktPublishing/LLM-Engineers-Handbook">LLM Engineer's Handbook</a> by <a>Alex Vesa</a>, <a href="https://github.com/iusztinpaul">Paul Iusztin</a>, and <a href="https://github.com/mlabonne">Maxime Labonne</a>. While maintaining the robust MLOps architecture and best practices from the original work, this adaptation implements finetunning from arxiv papers through a complete academic paper processing pipeline made possible with <a href="https://ds4sd.github.io/docling/">docling</a> a library developed by IBM.</em></p>
 </div>
 
 ## 🔄 Key Adaptations from Original Work
