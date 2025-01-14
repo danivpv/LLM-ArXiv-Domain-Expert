@@ -6,8 +6,7 @@ from llm_engineering.domain.types import DataCategory
 
 class Query(VectorBaseDocument):
     content: str
-    author_id: UUID4 | None = None
-    author_full_name: str | None = None
+    expert_id: UUID4 | None = None
     metadata: dict = Field(default_factory=dict)
 
     class Config:

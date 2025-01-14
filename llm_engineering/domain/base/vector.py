@@ -10,7 +10,8 @@ from qdrant_client.http import exceptions
 from qdrant_client.http.models import Distance, VectorParams
 from qdrant_client.models import CollectionInfo, PointStruct, Record
 
-from llm_engineering.application.networks.embeddings import EmbeddingModelSingleton
+from llm_engineering.application.networks.embeddings import \
+    EmbeddingModelSingleton
 from llm_engineering.domain.exceptions import ImproperlyConfigured
 from llm_engineering.domain.types import DataCategory
 from llm_engineering.infrastructure.db.qdrant import connection
@@ -19,7 +20,7 @@ T = TypeVar("T", bound="VectorBaseDocument")
 
 
 class VectorBaseDocument(BaseModel, Generic[T], ABC):
-    id: UUID4 = Field(default_factory=uuid.uuid4)
+    id: UUID4 = Field(primary_key=True, default_factory=uuid.uuid4)
 
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, self.__class__):
