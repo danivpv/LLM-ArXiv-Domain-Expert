@@ -6,8 +6,7 @@ from typing_extensions import Annotated
 from zenml import step
 
 from llm_engineering.domain.base.nosql import NoSQLBaseDocument
-from llm_engineering.domain.cleaned_documents import (CleanedDocument,
-                                                      CleanedPaperDocument)
+from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
 
 
 @step
@@ -42,11 +41,11 @@ def fetch_all_data() -> dict[str, list[NoSQLBaseDocument]]:
     return results
 
 
-def __fetch_papers() -> list[CleanedDocument]:
+def __fetch_papers() -> list[CleanedPaperDocument]:
     return __fetch(CleanedPaperDocument)
 
 
-def __fetch(cleaned_document_type: type[CleanedDocument], limit: int = 1) -> list[CleanedDocument]:
+def __fetch(cleaned_document_type: type[CleanedPaperDocument], limit: int = 1) -> list[CleanedPaperDocument]:
     try:
         cleaned_documents, next_offset = cleaned_document_type.bulk_find(limit=limit)
     except exceptions.UnexpectedResponse:

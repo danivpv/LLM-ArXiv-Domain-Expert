@@ -10,7 +10,7 @@ from loguru import logger
 
 from llm_engineering import domain
 from llm_engineering.application import utils
-from llm_engineering.domain.cleaned_documents import CleanedDocument
+from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
 from llm_engineering.domain.dataset import DatasetType, TrainTestSplit
 from llm_engineering.domain.prompt import GenerateDatasetSamplesPrompt, Prompt
 from llm_engineering.domain.types import DataCategory
@@ -49,11 +49,11 @@ Provide your response in JSON format.
         )
 
     @classmethod
-    def get_prompts(cls, documents: list[CleanedDocument]) -> dict[DataCategory, list[GenerateDatasetSamplesPrompt]]:
+    def get_prompts(cls, documents: list[CleanedPaperDocument]) -> dict[DataCategory, list[GenerateDatasetSamplesPrompt]]:
         documents = generation_utils.extract_substrings(documents)
 
         grouped_prompts = {}
-        grouped_cleaned_documents = CleanedDocument.group_by_category(documents)
+        grouped_cleaned_documents = CleanedPaperDocument.group_by_category(documents)
         for category, category_documents in grouped_cleaned_documents.items():
             category_prompts = [cls.get_prompt(document) for document in category_documents]
             grouped_prompts[category] = category_prompts
@@ -61,7 +61,7 @@ Provide your response in JSON format.
         return grouped_prompts
 
     @classmethod
-    def get_prompt(cls, document: CleanedDocument) -> GenerateDatasetSamplesPrompt:
+    def get_prompt(cls, document: CleanedPaperDocument) -> GenerateDatasetSamplesPrompt:
         assert cls.prompt_template_str is not None, "Prompt template must be set before calling get_prompt()"
 
         data_category = document.get_category()

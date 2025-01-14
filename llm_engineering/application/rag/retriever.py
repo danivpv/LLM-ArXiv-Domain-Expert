@@ -5,8 +5,7 @@ from loguru import logger
 from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 from llm_engineering.application import utils
-from llm_engineering.application.preprocessing.dispatchers import \
-    EmbeddingDispatcher
+from llm_engineering.application.preprocessing import DocumentEmbedder
 from llm_engineering.domain.embedded_chunks import (EmbeddedChunk,
                                                     EmbeddedPaperChunk)
 from llm_engineering.domain.queries import EmbeddedQuery, Query
@@ -83,7 +82,7 @@ class ContextRetriever:
                 query_filter=query_filter,
             )
 
-        embedded_query: EmbeddedQuery = EmbeddingDispatcher.dispatch(query)
+        embedded_query: EmbeddedQuery = DocumentEmbedder.embed(query)
 
         paper_chunks = _search_data_category(EmbeddedPaperChunk, embedded_query)
 

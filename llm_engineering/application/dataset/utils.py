@@ -1,15 +1,14 @@
 from sklearn.model_selection import train_test_split
 
-from llm_engineering.application.preprocessing.operations.chunking import chunk_document
-from llm_engineering.domain.cleaned_documents import CleanedDocument
-from llm_engineering.domain.dataset import (
-    InstructDataset,
-    InstructDatasetSample,
-    InstructTrainTestSplit,
-    PreferenceDataset,
-    PreferenceDatasetSample,
-    PreferenceTrainTestSplit,
-)
+from llm_engineering.application.preprocessing.operations.chunking import \
+    chunk_document
+from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
+from llm_engineering.domain.dataset import (InstructDataset,
+                                            InstructDatasetSample,
+                                            InstructTrainTestSplit,
+                                            PreferenceDataset,
+                                            PreferenceDatasetSample,
+                                            PreferenceTrainTestSplit)
 from llm_engineering.domain.types import DataCategory
 
 
@@ -104,8 +103,8 @@ def filter_answer_format(data: dict[DataCategory, PreferenceDataset]) -> dict[Da
 
 
 def extract_substrings(
-    documents: list[CleanedDocument], min_length: int = 1000, max_length: int = 2000
-) -> list[CleanedDocument]:
+    documents: list[CleanedPaperDocument], min_length: int = 1000, max_length: int = 2000
+) -> list[CleanedPaperDocument]:
     extracts = []
     for document in documents:
         document_extracts = chunk_document(document.content, min_length, max_length)

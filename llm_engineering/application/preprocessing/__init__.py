@@ -1,3 +1,3 @@
-from .dispatchers import ChunkingDispatcher, CleaningDispatcher, EmbeddingDispatcher
+from .preprocessing import DocumentChunker, DocumentCleaner, DocumentEmbedder
 
-__all__ = ["CleaningDispatcher", "ChunkingDispatcher", "EmbeddingDispatcher"]
+__all__ = ["DocumentCleaner", "DocumentChunker", "DocumentEmbedder"]
