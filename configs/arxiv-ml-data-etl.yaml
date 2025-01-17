@@ -8,12 +8,12 @@ settings:
 parameters:
   domain: machine_learning
   links:
-    - https://arxiv.org/pdf/2407.21783
-    - https://arxiv.org/pdf/2208.07339
-    - https://arxiv.org/pdf/2312.14925
-    - https://arxiv.org/pdf/2311.09476
-    - https://arxiv.org/pdf/2306.00978
     - https://arxiv.org/pdf/2404.04475
+    - https://arxiv.org/pdf/2208.07339
+    - https://arxiv.org/pdf/2407.21783
+    - https://arxiv.org/pdf/2311.09476
+    - https://arxiv.org/pdf/2312.14925
+    - https://arxiv.org/pdf/2306.00978
     - https://arxiv.org/pdf/1706.03741
     - https://arxiv.org/pdf/2401.02954
     - https://arxiv.org/pdf/2305.18290

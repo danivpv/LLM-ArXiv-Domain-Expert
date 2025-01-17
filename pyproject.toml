@@ -67,7 +67,6 @@ run-arxiv-ml-data-etl = "uv run python -m tools.run --run-etl --no-cache --etl-c
 run-feature-engineering-pipeline = "uv run python -m tools.run --no-cache --run-feature-engineering"
 run-generate-instruct-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-instruct-datasets"
 run-generate-preference-datasets-pipeline = "uv run python -m tools.run --no-cache --run-generate-preference-datasets"
-run-end-to-end-data-pipeline = "uv run python -m tools.run --no-cache --run-end-to-end-data"
 
 # Utility pipelines
 run-export-artifact-to-json-pipeline = "uv run python -m tools.run --no-cache --run-export-artifact-to-json"
@@ -80,7 +79,6 @@ run-evaluation-pipeline = "uv run python -m tools.run --no-cache --run-evaluatio
 
 # Inference
 call-rag-retrieval-module = "uv run python -m tools.rag"
-
 run-inference-ml-service = "uv run uvicorn tools.ml_service:app --host 0.0.0.0 --port 8000 --reload"
 call-inference-ml-service = "curl -X POST 'http://127.0.0.1:8000/rag' -H 'Content-Type: application/json' -d '{\"query\": \"My name is Paul Iusztin. Could you draft a LinkedIn post discussing RAG systems? I am particularly interested in how RAG works and how it is integrated with vector DBs and LLMs.\"}'"
 

@@ -23,4 +23,4 @@ def generate_datasets(
         raise ValueError(f"Invalid dataset type: {dataset_type}")
 
     if push_to_huggingface:
-        cd_steps.push_to_huggingface(dataset=dataset, dataset_id=dataset_id)
+        cd_steps.push_to_huggingface(dataset=dataset, dataset_id="danivpv/testing")

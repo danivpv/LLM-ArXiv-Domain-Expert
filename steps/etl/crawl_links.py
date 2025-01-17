@@ -1,4 +1,4 @@
-from datetime import datetime
+import time
 from typing import Dict
 
 from loguru import logger
@@ -7,18 +7,18 @@ from typing_extensions import Annotated
 from zenml import get_step_context, step
 
 from llm_engineering.application.crawler import ArxivClient
-from llm_engineering.domain.documents import ExpertDocument, PaperDocument
+from llm_engineering.domain.documents import ExpertDocument
 
 
 @step
 def crawl_links(expert: ExpertDocument, links: list[str]) -> Annotated[list[str], "crawled_links"]:
     """
     Crawl arxiv paper links and store them in MongoDB.
-    
+
     Args:
         expert: The expert document these papers are associated with
         links: List of arxiv paper URLs
-        
+
     Returns:
         list[str]: The processed links
     """
@@ -27,8 +27,9 @@ def crawl_links(expert: ExpertDocument, links: list[str]) -> Annotated[list[str]
 
     metadata = {}
     successful_crawls = 0
-    
+
     for link in tqdm(links):
+        time.sleep(5)  # rate limiting
         success = client.process_paper(link, expert)
         successful_crawls += success
         metadata = _add_to_metadata(metadata, success)
