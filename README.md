@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>🔬 ArXiv Domain Expert LLM</h1>
-  <p>A comprehensive LLM system trained on ArXiv papers to create a domain expert</p>
+  <h1>🔬 ArXiv Domain Expert SLM</h1>
+  <p>A SLM system trained on ArXiv papers to create a domain expert</p>
   
   
   <p><em>This project is adapted from the excellent <a href="https://github.com/PacktPublishing/LLM-Engineers-Handbook">LLM Engineer's Handbook</a> by <a>Alex Vesa</a>, <a href="https://github.com/iusztinpaul">Paul Iusztin</a>, and <a href="https://github.com/mlabonne">Maxime Labonne</a>. While maintaining the robust MLOps architecture and best practices from the original work, this adaptation implements finetunning from arxiv papers through a complete academic paper processing pipeline made possible with <a href="https://ds4sd.github.io/docling/">docling</a> a library developed by IBM.</em></p>
@@ -192,11 +192,11 @@ Based on the setup and usage steps described above, assuming the local and cloud
 
 - [x] Collect data: `uv run poe run-arxiv-data-etl`
 
-- [ ] Compute features: `uv run poe run-feature-engineering-pipeline`
+- [x] Compute features: `uv run poe run-feature-engineering-pipeline`
 
-- [ ] Compute instruct dataset: `uv run poe run-generate-instruct-datasets-pipeline`
+- [x] Compute instruct dataset: `uv run poe run-generate-instruct-datasets-pipeline`
 
-- [ ] Compute preference alignment dataset: `uv run poe run-generate-preference-datasets-pipeline`
+- [x] Compute preference alignment dataset: `uv run poe run-generate-preference-datasets-pipeline`
 
 ### Training
 

@@ -72,7 +72,7 @@ def create_preference_train_test_split(
 
 
 def filter_short_answers(
-    data: dict[DataCategory, PreferenceDataset], min_length: int = 100
+    data: dict[DataCategory, PreferenceDataset], min_length: int = 50
 ) -> dict[DataCategory, PreferenceDataset]:
     def is_long_enough(example: PreferenceDatasetSample) -> bool:
         return len(example.chosen) >= min_length
