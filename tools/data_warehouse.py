@@ -34,7 +34,7 @@ def main(
     data_dir: Path,
 ) -> None:
     assert export_raw_data or import_raw_data, "Specify at least one operation."
-    
+
     # Initialize MongoDB connection
     settings.init_mongodb()
 
@@ -58,19 +58,19 @@ def __export_data_category(data_dir: Path, category_class: type[Document]) -> No
     """Export a single collection to JSON."""
     # Get all documents
     documents = category_class.objects()
-    
+
     # Convert to JSON-serializable format
     serialized_data = []
     for doc in documents:
         data = doc.to_mongo().to_dict()  # Convert to dict format
         # Convert ObjectId to string for JSON serialization
-        data['_id'] = str(data['_id'])
-        if 'expert_id' in data:  # Handle ReferenceField
-            data['expert_id'] = str(data['expert_id'])
+        data["_id"] = str(data["_id"])
+        if "expert_id" in data:  # Handle ReferenceField
+            data["expert_id"] = str(data["expert_id"])
         serialized_data.append(data)
 
     export_file = data_dir / f"{category_class.__name__}.json"
-    
+
     logger.info(f"Exporting {len(serialized_data)} items of {category_class.__name__} to {export_file}...")
     with export_file.open("w") as f:
         json.dump(serialized_data, f, default=str)  # Use default=str for datetime objects
@@ -105,20 +105,20 @@ def __import_data_category(file: Path, category_class: type[Document]) -> None:
         data = json.load(f)
 
     logger.info(f"Importing {len(data)} items of {category_class.__name__} from {file}...")
-    
+
     for item in data:
         # Convert string IDs back to ObjectId
-        if '_id' in item:
-            del item['_id']  # Let MongoDB generate new ID
-        if 'expert_id' in item and isinstance(item['expert_id'], str):
+        if "_id" in item:
+            del item["_id"]  # Let MongoDB generate new ID
+        if "expert_id" in item and isinstance(item["expert_id"], str):
             # Find the referenced expert
-            expert = ExpertDocument.objects(id=item['expert_id']).first()
+            expert = ExpertDocument.objects(id=item["expert_id"]).first()
             if expert:
-                item['expert_id'] = expert
+                item["expert_id"] = expert
             else:
                 logger.warning(f"Expert with id {item['expert_id']} not found, skipping paper")
                 continue
-        
+
         try:
             doc = category_class(**item)
             doc.save()

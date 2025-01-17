@@ -10,8 +10,7 @@ from qdrant_client.http import exceptions
 from qdrant_client.http.models import Distance, VectorParams
 from qdrant_client.models import CollectionInfo, PointStruct, Record
 
-from llm_engineering.application.networks.embeddings import \
-    EmbeddingModelSingleton
+from llm_engineering.application.networks.embeddings import EmbeddingModelSingleton
 from llm_engineering.domain.exceptions import ImproperlyConfigured
 from llm_engineering.domain.types import DataCategory
 from llm_engineering.infrastructure.db.qdrant import connection

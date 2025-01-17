@@ -9,10 +9,7 @@ from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
 def clean_documents(
     documents: Annotated[list, "raw_documents"],
 ) -> Annotated[list, "cleaned_documents"]:
-    cleaned_documents = []
-    for document in documents:
-        cleaned_document = DocumentCleaner.clean(document)
-        cleaned_documents.append(cleaned_document)
+    cleaned_documents = [DocumentCleaner.clean(document) for document in documents]
 
     step_context = get_step_context()
     step_context.add_output_metadata(output_name="cleaned_documents", metadata=_get_metadata(cleaned_documents))

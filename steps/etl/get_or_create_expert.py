@@ -9,10 +9,10 @@ from llm_engineering.domain.documents import ExpertDocument
 def get_or_create_expert(domain: str) -> Annotated[ExpertDocument, "expert"]:
     """
     ZenML step to get or create an ML domain expert.
-    
+
     Args:
         domain: The ML domain of expertise (e.g. "machine_learning", "deep_learning", "nlp")
-        
+
     Returns:
         ExpertDocument: The expert document from MongoDB
     """
@@ -28,11 +28,11 @@ def _get_metadata(domain: str, expert: ExpertDocument) -> dict:
     """
     Get metadata about the expert for ZenML tracking.
     Similar to the original _get_metadata but adapted for experts.
-    
+
     Args:
         domain: The queried domain
         expert: The expert document
-        
+
     Returns:
         dict: Metadata about the query and retrieved expert
     """
@@ -43,4 +43,4 @@ def _get_metadata(domain: str, expert: ExpertDocument) -> dict:
         "retrieved": {
             "expert_id": str(expert.id),
         },
-    } 
+    }

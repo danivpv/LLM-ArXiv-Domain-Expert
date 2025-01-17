@@ -24,6 +24,7 @@ class EmbeddedPaperChunk(VectorBaseDocument):
             """
 
         return context
+
     class Config:
         name = "embedded_papers"
         category = DataCategory.PAPERS

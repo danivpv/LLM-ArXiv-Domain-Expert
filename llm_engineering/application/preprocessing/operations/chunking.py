@@ -1,7 +1,6 @@
 import re
 
-from langchain.text_splitter import (RecursiveCharacterTextSplitter,
-                                     SentenceTransformersTokenTextSplitter)
+from langchain.text_splitter import RecursiveCharacterTextSplitter, SentenceTransformersTokenTextSplitter
 
 from llm_engineering.application.networks import EmbeddingModelSingleton
 

@@ -1,14 +1,15 @@
 from sklearn.model_selection import train_test_split
 
-from llm_engineering.application.preprocessing.operations.chunking import \
-    chunk_document
+from llm_engineering.application.preprocessing.operations.chunking import chunk_document
 from llm_engineering.domain.cleaned_documents import CleanedPaperDocument
-from llm_engineering.domain.dataset import (InstructDataset,
-                                            InstructDatasetSample,
-                                            InstructTrainTestSplit,
-                                            PreferenceDataset,
-                                            PreferenceDatasetSample,
-                                            PreferenceTrainTestSplit)
+from llm_engineering.domain.dataset import (
+    InstructDataset,
+    InstructDatasetSample,
+    InstructTrainTestSplit,
+    PreferenceDataset,
+    PreferenceDatasetSample,
+    PreferenceTrainTestSplit,
+)
 from llm_engineering.domain.types import DataCategory
 
 

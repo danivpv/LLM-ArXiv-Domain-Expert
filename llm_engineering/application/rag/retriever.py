@@ -6,8 +6,7 @@ from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 from llm_engineering.application import utils
 from llm_engineering.application.preprocessing import DocumentEmbedder
-from llm_engineering.domain.embedded_chunks import (EmbeddedChunk,
-                                                    EmbeddedPaperChunk)
+from llm_engineering.domain.embedded_chunks import EmbeddedChunk, EmbeddedPaperChunk
 from llm_engineering.domain.queries import EmbeddedQuery, Query
 
 from .query_expanison import QueryExpansion

@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 
 from dotenv import load_dotenv
 from loguru import logger
@@ -11,6 +10,7 @@ from zenml.exceptions import EntityExistsError
 # Load environment variables from .env file
 load_dotenv()
 
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
@@ -18,39 +18,39 @@ class Settings(BaseSettings):
 
     # OpenAI API
     OPENAI_MODEL_ID: str = "gpt-4o-mini"
-    OPENAI_API_KEY: str | None = None
+    OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
 
     # Huggingface API
-    HUGGINGFACE_ACCESS_TOKEN: str | None = None
+    HUGGINGFACE_ACCESS_TOKEN: str | None = os.getenv("HUGGINGFACE_ACCESS_TOKEN")
 
     # Comet ML (during training)
-    COMET_API_KEY: str | None = None
+    COMET_API_KEY: str | None = os.getenv("COMET_API_KEY", None)
     COMET_PROJECT: str = "twin"
 
     # --- Required settings when deploying the code. ---
     # --- Otherwise, default values values work fine. ---
 
     # MongoDB database
-    DATABASE_HOST: str = "mongodb://llm_engineering:llm_engineering@127.0.0.1:27017"
+    DATABASE_HOST: str = os.getenv("DATABASE_HOST")
     DATABASE_NAME: str = "twin"
 
     # Qdrant vector database
-    USE_QDRANT_CLOUD: bool = False
+    USE_QDRANT_CLOUD: bool = os.getenv("USE_QDRANT_CLOUD", False)
     QDRANT_DATABASE_HOST: str = "localhost"
     QDRANT_DATABASE_PORT: int = 6333
     QDRANT_CLOUD_URL: str = "str"
     QDRANT_APIKEY: str | None = None
 
     # AWS Authentication
-    AWS_REGION: str = "eu-central-1"
-    AWS_ACCESS_KEY: str | None = None
-    AWS_SECRET_KEY: str | None = None
-    AWS_ARN_ROLE: str | None = None
+    AWS_REGION: str = os.getenv("AWS_REGION", "eu-east-1")
+    AWS_ACCESS_KEY: str | None = os.getenv("AWS_REGION", None)
+    AWS_SECRET_KEY: str | None = os.getenv("AWS_REGION", None)
+    AWS_ARN_ROLE: str = os.getenv("AWS_REGION", "str")
 
     # --- Optional settings used to tweak the code. ---
 
     # AWS SageMaker
-    HF_MODEL_ID: str = "mlabonne/TwinLlama-3.1-8B-DPO"
+    HF_MODEL_ID: str = "danivpv/MLExpertLlama-3.2-1B-DPO"
     GPU_INSTANCE_TYPE: str = "ml.g5.2xlarge"
     SM_NUM_GPUS: int = 1
     MAX_INPUT_LENGTH: int = 2048
@@ -87,6 +87,11 @@ class Settings(BaseSettings):
         max_token_window = int(official_max_token_window * 0.90)
 
         return max_token_window
+
+    @property
+    def validate_huggingface_token(self) -> bool:
+        """Validate that Hugging Face token is set and non-empty"""
+        return bool(self.HUGGINGFACE_ACCESS_TOKEN and self.HUGGINGFACE_ACCESS_TOKEN.strip())
 
     @classmethod
     def load_settings(cls) -> "Settings":
@@ -132,14 +137,11 @@ class Settings(BaseSettings):
         """Initialize MongoDB connection."""
         try:
             # Connect to MongoDB
-            connect(
-                db=self.DATABASE_NAME,
-                host=self.DATABASE_HOST
-            )
+            connect(db=self.DATABASE_NAME, host=self.DATABASE_HOST)
             logger.info(f"Connected to MongoDB at {self.DATABASE_HOST}:{self.DATABASE_NAME}")
         except Exception as e:
-            logger.error(f"Failed to connect to MongoDB: {str(e)}")
+            logger.error(f"Failed to connect to MongoDB: {e!s}")
             raise
 
-settings = Settings.load_settings()
 
+settings = Settings.load_settings()

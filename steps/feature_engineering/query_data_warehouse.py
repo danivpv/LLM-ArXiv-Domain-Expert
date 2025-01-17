@@ -34,7 +34,7 @@ def _get_metadata(documents: list[PaperDocument]) -> dict:
         collection = PaperDocument.get_collection_name()
         metadata[collection] = {
             "num_documents": len(documents),
-            "experts": list(set(str(doc.expert_id) for doc in documents))
+            "experts": list(set(str(doc.expert_id) for doc in documents)),
         }
 
     return metadata

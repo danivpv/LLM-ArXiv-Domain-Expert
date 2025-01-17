@@ -19,4 +19,4 @@ def push_to_huggingface(
     logger.info(f"Pushing dataset {dataset_id} to Hugging Face.")
 
     huggingface_dataset = dataset.to_huggingface(flatten=True)
-    huggingface_dataset.push_to_hub(dataset_id, token=settings.HUGGINGFACE_ACCESS_TOKEN)
+    huggingface_dataset.push_to_hub(dataset_id)

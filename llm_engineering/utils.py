@@ -10,30 +10,21 @@ from loguru import logger
 def log_function_execution(func: Callable) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
-        logger.info({
-            "event": f"{func.__name__}_started",
-            "args_length": len(args),
-            "kwargs_keys": list(kwargs.keys())
-        })
-        
+        logger.info({"event": f"{func.__name__}_started", "args_length": len(args), "kwargs_keys": list(kwargs.keys())})
+
         try:
             with log_execution_time(func.__name__):
                 result = func(*args, **kwargs)
-                
-            logger.info({
-                "event": f"{func.__name__}_completed",
-                "success": True
-            })
+
+            logger.info({"event": f"{func.__name__}_completed", "success": True})
             return result
-            
+
         except Exception as e:
-            logger.error({
-                "event": f"{func.__name__}_failed",
-                "error": str(e)
-            }, exc_info=True)
+            logger.error({"event": f"{func.__name__}_failed", "error": str(e)}, exc_info=True)
             raise
-            
+
     return wrapper
+
 
 @contextmanager
 def log_execution_time(task_name: str):
@@ -43,7 +34,4 @@ def log_execution_time(task_name: str):
         yield
     finally:
         duration = time.time() - start_time
-        logger.info({
-            "event": f"{task_name}_duration",
-            "duration_seconds": duration
-        })
+        logger.info({"event": f"{task_name}_duration", "duration_seconds": duration})

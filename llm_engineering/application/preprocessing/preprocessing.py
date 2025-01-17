@@ -68,9 +68,7 @@ class DocumentEmbedder:
     _embedding_model = EmbeddingModelSingleton()
 
     @classmethod
-    def embed(
-        cls, doc: VectorBaseDocument | list[VectorBaseDocument]
-    ) -> VectorBaseDocument | list[VectorBaseDocument]:
+    def embed(cls, doc: VectorBaseDocument | list[VectorBaseDocument]) -> VectorBaseDocument | list[VectorBaseDocument]:
         is_list = isinstance(doc, list)
         if not is_list:
             doc = [doc]
@@ -85,13 +83,11 @@ class DocumentEmbedder:
         # Map embeddings to appropriate document types
         if doc[0].get_category() == DataCategory.QUERIES:
             embedded_models = [
-                cls._create_embedded_query(doc, embedding)
-                for doc, embedding in zip(doc, embeddings, strict=True)
+                cls._create_embedded_query(doc, embedding) for doc, embedding in zip(doc, embeddings, strict=True)
             ]
         else:
             embedded_models = [
-                cls._create_embedded_paper(doc, embedding)
-                for doc, embedding in zip(doc, embeddings, strict=True)
+                cls._create_embedded_paper(doc, embedding) for doc, embedding in zip(doc, embeddings, strict=True)
             ]
 
         if not is_list:

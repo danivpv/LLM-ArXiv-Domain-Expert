@@ -49,7 +49,9 @@ Provide your response in JSON format.
         )
 
     @classmethod
-    def get_prompts(cls, documents: list[CleanedPaperDocument]) -> dict[DataCategory, list[GenerateDatasetSamplesPrompt]]:
+    def get_prompts(
+        cls, documents: list[CleanedPaperDocument]
+    ) -> dict[DataCategory, list[GenerateDatasetSamplesPrompt]]:
         documents = generation_utils.extract_substrings(documents)
 
         grouped_prompts = {}
@@ -136,6 +138,7 @@ Provide your response in JSON format.
 
                     for instruct_dataset_sample_batch in batched_dataset_samples:
                         flattened_instruct_dataset_samples.extend(instruct_dataset_sample_batch)
+                        break
                 except OutputParserException:
                     logger.exception(f"Failed to parse the output JSON for a batch for category {category}")
 
