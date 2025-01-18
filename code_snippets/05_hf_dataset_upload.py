@@ -1,8 +1,6 @@
-import os
 import random
 
 from datasets import Dataset
-from dotenv import load_dotenv
 from loguru import logger
 
 
@@ -12,12 +10,6 @@ def create_and_push_dataset():
     Creates a simple dataset with 100 random numbers and pushes it to Hugging Face Hub.
     """
     # Load environment variables from .env file
-    load_dotenv()
-    token = os.getenv("HUGGINGFACE_ACCESS_TOKEN")
-
-    if not token:
-        logger.error("Hugging Face access token not found in environment variables.")
-        return
 
     dataset_id = "danivpv/testing"
 

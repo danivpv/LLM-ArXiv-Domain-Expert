@@ -15,7 +15,7 @@ def query_feature_store() -> Annotated[list, "queried_cleaned_documents"]:
 
     results = fetch_all_data()
 
-    cleaned_documents = [doc for query_result in results.values() for doc in query_result[:1]]
+    cleaned_documents = [doc for query_result in results.values() for doc in query_result]
 
     return cleaned_documents
 

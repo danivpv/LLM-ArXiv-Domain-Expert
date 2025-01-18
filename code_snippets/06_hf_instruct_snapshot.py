@@ -36,7 +36,7 @@ def print_dataset_stats(split_data, split_name):
 def main():
     # Load dataset from Hugging Face
     print("Loading dataset from Hugging Face...")
-    dataset = load_dataset("danivpv/testing")
+    dataset = load_dataset("danivpv/ml-arxiv-instruct")
 
     # Print overall dataset info
     print("\nDataset Info:")
