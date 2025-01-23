@@ -202,7 +202,7 @@ Based on the setup and usage steps described above, assuming the local and cloud
 
 > From now on, for these steps to work, you need to properly set up AWS SageMaker, such as running `uv sync --extra aws` and filling in the AWS-related environment variables and configs.
 
-- [ ] SFT fine-tuning Llamma 3.1: `uv run poe run-training-pipeline`
+- [x] SFT fine-tuning Llamma 3.1: `uv run poe run-training-pipeline`
 
 - [ ] For DPO, go to `configs/training.yaml`, change `finetuning_type` to `dpo`, and run `uv run poe run-training-pipeline` again
 
