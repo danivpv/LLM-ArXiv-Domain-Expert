@@ -25,7 +25,7 @@ class Settings(BaseSettings):
 
     # Comet ML (during training)
     COMET_API_KEY: str | None = os.getenv("COMET_API_KEY", None)
-    COMET_PROJECT: str = "twin"
+    COMET_PROJECT: str = os.getenv("COMET_PROJECT", "ml-arxiv-expert")
 
     # --- Required settings when deploying the code. ---
     # --- Otherwise, default values values work fine. ---
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     # --- Optional settings used to tweak the code. ---
 
     # AWS SageMaker
-    HF_MODEL_ID: str = "danivpv/MLExpertLlama-3.2-1B-DPO"
+    HF_MODEL_ID: str = "danivpv/Llama-ML-Expert-DPO-1b"
     GPU_INSTANCE_TYPE: str = "ml.g5.2xlarge"
     SM_NUM_GPUS: int = 1
     MAX_INPUT_LENGTH: int = 2048

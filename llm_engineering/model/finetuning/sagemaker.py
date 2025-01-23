@@ -19,7 +19,7 @@ def run_finetuning_on_sagemaker(
     num_train_epochs: int = 3,
     per_device_train_batch_size: int = 2,
     learning_rate: float = 3e-4,
-    dataset_huggingface_workspace: str = "mlabonne",
+    dataset_huggingface_workspace: str = "danivpv",
     is_dummy: bool = False,
 ) -> None:
     assert settings.HUGGINGFACE_ACCESS_TOKEN, "Hugging Face access token is required."
@@ -50,8 +50,8 @@ def run_finetuning_on_sagemaker(
     huggingface_estimator = HuggingFace(
         entry_point="finetune.py",
         source_dir=str(finetuning_dir),
-        instance_type="ml.g5.2xlarge",
-        instance_count=1,
+        instance_type=settings.GPU_INSTANCE_TYPE,
+        instance_count=settings.SM_NUM_GPUS,
         role=settings.AWS_ARN_ROLE,
         transformers_version="4.36",
         pytorch_version="2.1",

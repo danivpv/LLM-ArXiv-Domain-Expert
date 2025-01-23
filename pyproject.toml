@@ -2,7 +2,7 @@
 name = "llm-engineering"
 version = "0.1.0"
 description = ""
-authors = [{ name = "iusztinpaul", email = "p.b.iusztin@gmail.com" }]
+authors = [{ name = "Daniel Parra", email = "danivpv@gmail.com" }]
 requires-python = ">=3.11,<3.12"
 readme = "README.md"
 license = "MIT"

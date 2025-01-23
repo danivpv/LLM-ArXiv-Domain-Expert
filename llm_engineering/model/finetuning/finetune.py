@@ -98,7 +98,7 @@ def finetune(
 
             return {"text": text}
 
-        dataset1 = load_dataset(f"{dataset_huggingface_workspace}/llmtwin", split="train")
+        dataset1 = load_dataset(f"{dataset_huggingface_workspace}/ml-arxiv-instruct", split="train")
         dataset2 = load_dataset("mlabonne/FineTome-Alpaca-100k", split="train[:10000]")
         dataset = concatenate_datasets([dataset1, dataset2])
         if is_dummy:
@@ -151,7 +151,7 @@ def finetune(
 
             return {"prompt": example["prompt"], "chosen": example["chosen"], "rejected": example["rejected"]}
 
-        dataset = load_dataset(f"{dataset_huggingface_workspace}/llmtwin-dpo", split="train")
+        dataset = load_dataset(f"{dataset_huggingface_workspace}/ml-arxiv-dpo", split="train")
         if is_dummy:
             try:
                 dataset = dataset.select(range(400))
@@ -232,7 +232,6 @@ def check_if_huggingface_model_exists(model_id: str, default_value: str = "mlabo
         print(f"Model '{model_id}' does not exist.")  # noqa
         model_id = default_value
         print(f"Defaulting to '{model_id}'")  # noqa
-        print("Train your own 'TwinLlama-3.1-8B' to avoid this behavior.")  # noqa
 
     return model_id
 
@@ -274,7 +273,7 @@ if __name__ == "__main__":
 
     if args.finetuning_type == "sft":
         print("Starting SFT training...")  # noqa
-        base_model_name = "meta-llama/Llama-3.1-8B"
+        base_model_name = "unsloth/Llama-3.2-1B-bnb-4bit"
         print(f"Training from base model '{base_model_name}'")  # noqa
 
         output_dir_sft = Path(args.model_dir) / "output_sft"
@@ -286,15 +285,17 @@ if __name__ == "__main__":
             num_train_epochs=args.num_train_epochs,
             per_device_train_batch_size=args.per_device_train_batch_size,
             learning_rate=args.learning_rate,
+            load_in_4bit=True,
+            is_dummy=args.is_dummy,
         )
         inference(model, tokenizer)
 
-        sft_output_model_repo_id = f"{args.model_output_huggingface_workspace}/TwinLlama-3.1-8B"
+        sft_output_model_repo_id = f"{args.model_output_huggingface_workspace}/Llama-ML-Expert-Instruct-1b"
         save_model(model, tokenizer, "model_sft", push_to_hub=True, repo_id=sft_output_model_repo_id)
     elif args.finetuning_type == "dpo":
         print("Starting DPO training...")  # noqa
 
-        sft_base_model_repo_id = f"{args.model_output_huggingface_workspace}/TwinLlama-3.1-8B"
+        sft_base_model_repo_id = f"{args.model_output_huggingface_workspace}/Llama-ML-Expert-Instruct-1b"
         sft_base_model_repo_id = check_if_huggingface_model_exists(sft_base_model_repo_id)
         print(f"Training from base model '{sft_base_model_repo_id}'")  # noqa
 
@@ -311,5 +312,5 @@ if __name__ == "__main__":
         )
         inference(model, tokenizer)
 
-        dpo_output_model_repo_id = f"{args.model_output_huggingface_workspace}/TwinLlama-3.1-8B-DPO"
+        dpo_output_model_repo_id = f"{args.model_output_huggingface_workspace}/Llama-ML-Expert-DPO-1b"
         save_model(model, tokenizer, "model_dpo", push_to_hub=True, repo_id=dpo_output_model_repo_id)
