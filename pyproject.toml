@@ -84,7 +84,7 @@ call-inference-ml-service = "curl -X POST 'http://127.0.0.1:8000/rag' -H 'Conten
 
 # Infrastructure
 ## Local infrastructure
-local-docker-infrastructure-up = "docker compose up -d"
+local-docker-infrastructure-up = "docker compose -p llm-engineers-handbook up -d "
 local-docker-infrastructure-down = "docker compose stop"
 local-zenml-server-down = "uv run zenml down"
 local-infrastructure-up = [
